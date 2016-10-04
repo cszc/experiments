@@ -1,0 +1,36 @@
+Title         : MPCS 55001 Algorithms Autumn 2016
+Subtitle      : Homework 1
+Author        : Christine Chung
+Logo          : False
+
+[TITLE]
+
+# Problem 1
+Consider the following mergesort variant: instead of dividing a list of n elements into two halves, we divide it into three thirds of approximately equal size. Then we recursively sort each third and merge the three lists by comparing their respective first elements and taking the smallest.
+
+- Write pseudocode for a 3-way merge procedure that takes as input three sorted lists each of size n/3. (You may assume n is a power of 3.) Pay careful attention to the formulas for interval endpoints. Your algorithm should run in O(n) time. (3 points)
+  ```
+   Merge(A, B, C): (A, B, and C are each Arrays of size n/3):
+    result := [] #(new empty array)
+    i = 0 #cursor for array A
+    j = 0 #cursor for array B
+    k = 0 #cursor for array C
+    
+  ```
+  2.  for i in range(length(A)):
+  3.    if A[i] < B[i]:
+            if A[i] < C[i]:
+              result.append(A[i])
+            else:
+              result.append(C[i])
+              result.append(A[i])
+              result.append(B[i])
+            
+  
+- Explain clearly and concisely why your algorithm is correct. Restatements of steps of the algorithm will receive no credit. (1 point)
+- Write pseudocode for a 3-way mergesort algorithm. Use your 3-way merge procedure as a subroutine. (1 point)
+- Let T(n) denote the running time of 3-way mergesort on an array of size n. Write a recurrence for T(n) and solve it using the master theorem. (1 point)
+- Is 3-way mergesort asymptotically faster than insertion sort? Prove your answer. (Hint: Take the limit of the ratio of the running times as n → ∞.) (1 point)
+- Is 3-way mergesort asymptotically faster than ordinary mergesort? Prove your answer. (Hint: see previous hint.) (1 point) 
+
+[reference manual]: http://research.microsoft.com/en-us/um/people/daan/madoko/doc/reference.html  "Madoko reference manual"
