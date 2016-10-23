@@ -6,21 +6,22 @@ Logo          : False
 [TITLE]
 
 # Problem 1
-- A[k] is the minimum possible penalty you can incur traveling from m~0~ to m~k~, for 0 < k <= n. A is an array of length n. X~k~ is the distance from 0 to m~k~.
-- A[k] = min~0<=i<k~{(200 - (X~k~-X~i~))^2^ + A[i]} if k > 0, else 0
+- Subproblem: A[k] is the minimum possible penalty you can incur traveling from m~0~ to m~k~, for 0 < k <= n. A is an array of length n. X~k~ is the distance from 0 to m~k~.
+- Recurrence: A[k] = min~0<=i<k~{(200 - (X~k~-X~i~))^2^ + A[i]} if k > 0, else 0
+- Pseudocode:
     ```
     procedure MinPenalty(m, n) // m is an array of mile posts m_i and n is the distance to the final mile post.
     1:    let A[0...n] be a new array
     2:    A[0] := 0
-    3:    for k = 1 to n:
-    4:        for i = 0 to k:
-    5:            A[k] = min from 0 <=i k {(200 - (X_k - X_i))^2 + A[i]}
-    6:        end for
-    7:    end for
-    8:    return A[n]
+    3:    for k = 1 to n: //inclusive. n+1 loops b/c needs to check n+1 before stopping
+    4:        A[k] = (200 - X_k)^2 // happens n times, O(n)
+    5:        for i = 0 to k-1: //inclusive. k loops b/c needs to check k before stopping
+    6:            A[k] = min {A[k], ((200 - (X_k - X_i))^2 + A[i])} // happens k-1 times, O(k-1)
+    7:        end for
+    8:    end for
+    9:    return A[n]
     ```
-    - What is the key modification to Partition? Why does your algorithm work? (2 points)
-      - The key modification is two additional comparisons: one to check if A[j] is equal to x instead of less than, and one to check if j > q + 1. It works because at every step, we know that everything to the left of q is smaller than A[q], everything to the right of t is greater than A[t], and everything in between is equal to the pivot x. This is maintained at every step.
+- Proof: 
 
 - Modify the Randomized-Partition procedure to call New-Partition, and name the new procedure Randomized-New-Partition. Then modify the Quicksort algorithm to produce an algorithm New-Quicksort(A, p, r) that calls Randomized-New-Partition and recurses only on partitions of elements not known to be equal to each other.
     - Describe Randomized-New-Partition in pseudocode. (1 point)
