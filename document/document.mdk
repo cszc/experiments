@@ -1,0 +1,41 @@
+Title         : MPCS 55001 Algorithms Autumn 2016
+Subtitle      : Homework 4
+Author        : Christine Chung
+Logo          : False
+
+[TITLE]
+
+# Problem 1
+- A[k] is the minimum possible penalty you can incur traveling from m~0~ to m~k~, for 0 < k <= n. A is an array of length n. X~k~ is the distance from 0 to m~k~.
+- A[k] = min~0<=i<k~{(200 - (X~k~-X~i~))^2^ + A[i]} if k > 0, else 0
+    ```
+    procedure MinPenalty(m, n) // m is an array of mile posts m_i and n is the distance to the final mile post.
+    1:    let A[0...n] be a new array
+    2:    A[0] := 0
+    3:    for k = 1 to n:
+    4:        for i = 0 to k:
+    5:            A[k] = min from 0 <=i k {(200 - (X_k - X_i))^2 + A[i]}
+    6:        end for
+    7:    end for
+    8:    return A[n]
+    ```
+    - What is the key modification to Partition? Why does your algorithm work? (2 points)
+      - The key modification is two additional comparisons: one to check if A[j] is equal to x instead of less than, and one to check if j > q + 1. It works because at every step, we know that everything to the left of q is smaller than A[q], everything to the right of t is greater than A[t], and everything in between is equal to the pivot x. This is maintained at every step.
+
+- Modify the Randomized-Partition procedure to call New-Partition, and name the new procedure Randomized-New-Partition. Then modify the Quicksort algorithm to produce an algorithm New-Quicksort(A, p, r) that calls Randomized-New-Partition and recurses only on partitions of elements not known to be equal to each other.
+    - Describe Randomized-New-Partition in pseudocode. (1 point)
+    ```
+      procedure RandomizedNewPartition(A, p r)
+      1:    i = Random(p, r)
+      2:    exchange A[r] with A[i]
+      3:    return NewPartition(A, p, r)
+    ```
+    - Describe New-Quicksort in pseudocode. (1 point)
+        ```
+      procedure NewQuicksort(A, p r)
+      1:    if p < r
+      2:        q, t = RandomizedNewPartition(A, p, r)
+      3:        NewQuicksort(A, p, q-1)
+      4:        NewQuicksort(A, t+1, r)
+    ```
+
