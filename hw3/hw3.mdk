@@ -1,0 +1,42 @@
+Title         : MPCS 55001 Algorithms Autumn 2016
+Subtitle      : Homework 4
+Author        : Christine Chung
+Logo          : False
+
+[TITLE]
+
+# Problem 1
+- Subproblem: A[k] is the minimum possible penalty you can incur traveling from m~0~ to m~k~, for 0 < k <= n. A is an array of length n. X~k~ is the distance from 0 to m~k~.
+- Recurrence: A[k] = min~0<=i<k~{(200 - (X~k~-X~i~))^2^ + A[i]} if k > 0, else 200^2^
+- Pseudocode:
+    ```
+    procedure MinPenalty(m, n) // m is an array of mile posts m_i and n is the distance to the final mile post.
+    1:    let A[0...n] be a new array
+    2:    A[0] := 40,000 // base case. If you never leave, you incur a 200 squared penalty
+    3:    for k = 1 to n: //inclusive. n+1 loops b/c needs to check n+1 before stopping
+    4:        A[k] = (200 - X_k)^2 // happens n times, O(n)
+    5:        for i = 0 to k-1: //inclusive. k loops b/c needs to check k before stopping
+    6:            A[k] = min {A[k], ((200 - (X_k - X_i))^2 + A[i])} // happens k-1 times, O(k-1)
+    7:        end for
+    8:    end for
+    9:    return A[n]
+    ```
+- Proof: We need to make sure that from 0 to k, A[k] is the minimum total penalty for getting to hotel k. At A[0], we're ending where we began, meaning we don't leave at all. This incurs a penalty of 200^2^ or 40,000. At each iteration of the for loop, we check to see . At th ened. Thus, whatever.
+
+- Modify the Randomized-Partition procedure to call New-Partition, and name the new procedure Randomized-New-Partition. Then modify the Quicksort algorithm to produce an algorithm New-Quicksort(A, p, r) that calls Randomized-New-Partition and recurses only on partitions of elements not known to be equal to each other.
+    - Describe Randomized-New-Partition in pseudocode. (1 point)
+    ```
+      procedure RandomizedNewPartition(A, p r)
+      1:    i = Random(p, r)
+      2:    exchange A[r] with A[i]
+      3:    return NewPartition(A, p, r)
+    ```
+    - Describe New-Quicksort in pseudocode. (1 point)
+        ```
+      procedure NewQuicksort(A, p r)
+      1:    if p < r
+      2:        q, t = RandomizedNewPartition(A, p, r)
+      3:        NewQuicksort(A, p, q-1)
+      4:        NewQuicksort(A, t+1, r)
+    ```
+
