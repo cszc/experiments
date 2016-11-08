@@ -6,28 +6,32 @@ Logo          : False
 [TITLE]
 
 # Problem 1
-- In my implementation of DFS without recursion, 
+- Describe: In my implementation of DFS without recursion, DFS remains the same but DFS-Visit uses a stack instead of recursion. Each time a vertex is discovered, it is marked as gray and added to the stack. New popped vertices are taken off the top of the stack, so the last one added is the new one popped. Therefore, vertices are added and taken off in parentheses format. If a popped vertex is gray, that means all of its child vertices have already been visited, so it is marked as Black and taken permanently off of the stack.
 - Pseudocode:
     ```
-    procedure DFS-Visit(G, u)
+    procedure DFS-Visit(G, u) //G is a graph, u is a starting vertex
     1:    let S be a new stack //with methods pop and push
-    2:    for each v in G.Adj[u]
-    3:        S.push(v) //add each child vertex of u to the stack
-    4:    while S is not empty
-    5:        v = S.pop() //take a vertex off the top of the stack
-    6:        for each w in G.Adj[v]
-                  time = time + 1
-    7:            if v.color == white
-    8:                v.color == gray
-    9:                v.pi == u
-    10:               v.d = time
-                      S.push(w)
-                  v.color = Black
-                  v.f = time
+    2:    S.push(u) //add u to the stack
+    3:    while S is not empty
+    4:        v = S.pop() //take a vertex off the top of the stack
+    5:        time = time + 1
+    6:        if v.color == WHITE
+    7:           v.d = time
+    8:           v.color = GRAY
+    9:           S.push(v)
+    10:          for each w in G.Adj[v]
+    11:              time = time + 1
+    12:              if w.color = WHITE
+    13:                   w.color = GRAY
+    14:                   w.pi = v
+    15:                   w.d = time
+    16:                   S.push(w)
+    17:        else if v.color == GRAY
+    18:           v.color = BLACK
+    19:           v.f = time
     ```
+- 
 # Problem 2
-- Subproblem: A[i] = A boolean value 1 or 0 if a substring S[1...i] can be split into valid words
-- Recurrence: A[i] = 1 if dict(s[1... i]). Otherwise, A[i] = 1 if for any j, A[j-1] and dict(S[j:i]) are True, else A[i] = 0.
 - Pseudocode:
   ```
     procedure DFS(G)
@@ -56,25 +60,16 @@ Logo          : False
     13:   u.f = time
     14:   return False
     ```
+- Correctness
+- Analyze
+- Modify
     
 #Problem 3
-- Proof: We want to make sure that for every i in 1 to n, A[i] returns the correct bool of whether or not the substring S[1...i] is composed of valid words. When we have a string a length 1, it's validity is just the return of dict. This satisfies the base case. For every subsequent iteration, we are concerned with whether or not we can make a valid word using the additional letter and some number from 0 to j consecutively preceding letters. That means checking to see if S[0...j-1] is composed of valid words, and if S[j:i] is valid. In the final step, if we can make a valid word that includes the final letter S[n], and the preceding substring is composed of valid letters, we know that S is a valid string. Otherwise, it isn't.
-- Running Time: Again, we have a nested for loop, each one linear. In both for loops, we perform constant time look-ups to dict. Thus, the total runtime is O(n^2^).
-- Modify algo to output valid string:
+-
   ```
-    procedure ReconstructString(string, dict)
-    1:    let A[0...len(string)] be a new array of tuples 
-    //with (bool, [array of valid words])
-    2:    A[1] = (dict(S[1]), [S[1]]) // base case
-    3:    for i = 2 to string.length
-    4:        if dict[S[1:i]]
-    5:            A[i] == (dict(S[1:i]), [S[1:i]])
-    6:        else
-    7:            for j = 2 to i
-    8:                if A[j-1] and dict(S[j:i])
-    9:                      A[i] == (dict(S[j:i]), A[j-i][1].append(S[j:i]))
-    10:                     break
-    11:            end for
-    12:    end for       
-    11:    return A[n][1]
+    procedure Longest-Path(G) //G is a DAG
+      G' = Topological-Sort(G) // returns a linked list of vertices in topologically sorted order
+      max_dist = 0
+      for each v in G'
+          
     ```
