@@ -1,0 +1,80 @@
+Title         : MPCS 55001 Algorithms Autumn 2016
+Subtitle      : Homework 6
+Author        : Christine Chung
+Logo          : False
+
+[TITLE]
+
+# Problem 1
+- In my implementation of DFS without recursion, 
+- Pseudocode:
+    ```
+    procedure DFS-Visit(G, u)
+    1:    let S be a new stack //with methods pop and push
+    2:    for each v in G.Adj[u]
+    3:        S.push(v) //add each child vertex of u to the stack
+    4:    while S is not empty
+    5:        v = S.pop() //take a vertex off the top of the stack
+    6:        for each w in G.Adj[v]
+                  time = time + 1
+    7:            if v.color == white
+    8:                v.color == gray
+    9:                v.pi == u
+    10:               v.d = time
+                      S.push(w)
+                  v.color = Black
+                  v.f = time
+    ```
+# Problem 2
+- Subproblem: A[i] = A boolean value 1 or 0 if a substring S[1...i] can be split into valid words
+- Recurrence: A[i] = 1 if dict(s[1... i]). Otherwise, A[i] = 1 if for any j, A[j-1] and dict(S[j:i]) are True, else A[i] = 0.
+- Pseudocode:
+  ```
+    procedure DFS(G)
+    1:    for each vertex u in G.V.
+    2:        u.color = WHITE
+    3:        u.pi = NIL
+    4:    time = 0
+    5:    for each vertex u in G.V.
+    6:        if u.color == WHITE
+    7:            if DFS-VISIT(G, u)
+    8:                return True
+    9:    return False //Never returned True, so there are no cycles in the Graph
+    
+    procedure DFS-Visit(G, u)
+    1:    time = time+1
+    2:    u.d = time
+    3:    u.color = GRAY
+    4:    
+    5:    for each vertex u in G.Adj[u]
+    6:        if u.color == WHITE
+    7:            DFS-VISIT(G, u)
+    9:        else //If the color is Gray or Black, it's already been visited, meaning that have found a cycle
+    10:           return True //
+    11:   u.color = BLACK
+    12:   time = time + 1
+    13:   u.f = time
+    14:   return False
+    ```
+    
+#Problem 3
+- Proof: We want to make sure that for every i in 1 to n, A[i] returns the correct bool of whether or not the substring S[1...i] is composed of valid words. When we have a string a length 1, it's validity is just the return of dict. This satisfies the base case. For every subsequent iteration, we are concerned with whether or not we can make a valid word using the additional letter and some number from 0 to j consecutively preceding letters. That means checking to see if S[0...j-1] is composed of valid words, and if S[j:i] is valid. In the final step, if we can make a valid word that includes the final letter S[n], and the preceding substring is composed of valid letters, we know that S is a valid string. Otherwise, it isn't.
+- Running Time: Again, we have a nested for loop, each one linear. In both for loops, we perform constant time look-ups to dict. Thus, the total runtime is O(n^2^).
+- Modify algo to output valid string:
+  ```
+    procedure ReconstructString(string, dict)
+    1:    let A[0...len(string)] be a new array of tuples 
+    //with (bool, [array of valid words])
+    2:    A[1] = (dict(S[1]), [S[1]]) // base case
+    3:    for i = 2 to string.length
+    4:        if dict[S[1:i]]
+    5:            A[i] == (dict(S[1:i]), [S[1:i]])
+    6:        else
+    7:            for j = 2 to i
+    8:                if A[j-1] and dict(S[j:i])
+    9:                      A[i] == (dict(S[j:i]), A[j-i][1].append(S[j:i]))
+    10:                     break
+    11:            end for
+    12:    end for       
+    11:    return A[n][1]
+    ```
